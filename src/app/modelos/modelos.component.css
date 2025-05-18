@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  padding: 16px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  padding: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+button {
+  padding: 8px;
+  margin-top: 8px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 6px;
+  border-bottom: 1px solid #ccc;
+}

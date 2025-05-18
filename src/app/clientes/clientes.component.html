@@ -1,4 +1,4 @@
-<h2>Lista de Clientes</h2>
+<!--<h2>Lista de Clientes</h2>
 <table>
   <thead>
     <tr>
@@ -6,6 +6,44 @@
       <th>Nome</th>
       <th>Email</th>
       <th>Telefone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cliente of clientes">
+      <td>{{ cliente.id }}</td>
+      <td>{{ cliente.nome }}</td>
+      <td>{{ cliente.email }}</td>
+      <td>{{ cliente.telefone }}</td>
+    </tr>
+  </tbody>
+</table>
+-->
+
+<h2>Cadastro de Cliente</h2>
+
+<form [formGroup]="clienteForm" (ngSubmit)="adicionarCliente()">
+  <label>Nome:</label>
+  <input formControlName="nome" type="text">
+  <br>
+
+  <label>Email:</label>
+  <input formControlName="email" type="email">
+  <br>
+
+  <label>Telefone:</label>
+  <input formControlName="telefone" type="text">
+  <br>
+
+  <button type="submit" [disabled]="clienteForm.invalid">Salvar</button>
+</form>
+
+<hr>
+
+<h2>Lista de Clientes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th>
     </tr>
   </thead>
   <tbody>
