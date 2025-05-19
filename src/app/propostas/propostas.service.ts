@@ -24,7 +24,7 @@ export interface Proposta {
   providedIn: 'root'
 })
 export class PropostasService {
-  private apiUrl = `${environment.apiUrl}/propostas`;
+  private apiUrl = `${environment.apiUrl}/Proposta`;
 
   constructor(private http: HttpClient) {}
 

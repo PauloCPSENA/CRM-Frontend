@@ -15,7 +15,7 @@ export interface ModeloProposta {
 
 @Injectable({ providedIn: 'root' })
 export class ModeloPropostaService {
-  private apiUrl = `${environment.apiUrl}/modelosProposta`;
+  private apiUrl = `${environment.apiUrl}/modeloProposta`;
 
   constructor(private http: HttpClient) {}
 
