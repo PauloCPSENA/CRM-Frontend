@@ -15,7 +15,7 @@ export interface ModeloProposta {
 
 @Injectable({ providedIn: 'root' })
 export class ModeloPropostaService {
-  private apiUrl = `${environment.apiUrl}/modeloProposta`;
+  private readonly apiUrl = `${environment.apiUrl}/modeloProposta`;
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +23,22 @@ export class ModeloPropostaService {
     return this.http.get<ModeloProposta[]>(this.apiUrl);
   }
 
-  adicionarModelo(modelo: ModeloProposta): Observable<ModeloProposta> {
+  criar(modelo: ModeloProposta): Observable<ModeloProposta> {
     return this.http.post<ModeloProposta>(this.apiUrl, modelo);
   }
+
+  atualizarModelo(modelo: ModeloProposta): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${modelo.id}`, modelo);
+  }
+
+  deletarModelo(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
+
+
+  // Futuro:
+  // atualizar(id: number, modelo: ModeloProposta): Observable<ModeloProposta> { ... }
+  // excluir(id: number): Observable<void> { ... }
+
+

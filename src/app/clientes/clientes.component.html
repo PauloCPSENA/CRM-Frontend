@@ -1,4 +1,43 @@
-<!--<h2>Lista de Clientes</h2>
+<h2>Cadastro de Cliente</h2>
+
+<form [formGroup]="clienteForm" (ngSubmit)="salvarCliente()">
+  <div>
+    <label>Nome:</label>
+    <input formControlName="nome" type="text" />
+    <div *ngIf="clienteForm.get('nome')?.invalid && clienteForm.get('nome')?.touched">
+      <small class="erro">Nome é obrigatório.</small>
+    </div>
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input formControlName="email" type="email" />
+    <div *ngIf="clienteForm.get('email')?.invalid && clienteForm.get('email')?.touched">
+      <small class="erro" *ngIf="clienteForm.get('email')?.errors?.['required']">Email é obrigatório.</small>
+      <small class="erro" *ngIf="clienteForm.get('email')?.errors?.['email']">Formato de email inválido.</small>
+    </div>
+  </div>
+
+  <div>
+    <label>Telefone:</label>
+    <input formControlName="telefone" type="text" />
+    <div *ngIf="clienteForm.get('telefone')?.invalid && clienteForm.get('telefone')?.touched">
+      <small class="erro">Telefone é obrigatório.</small>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="clienteForm.invalid">
+    {{ clienteEmEdicao ? 'Atualizar' : 'Salvar' }}
+  </button>
+
+  <button type="button" *ngIf="clienteEmEdicao" (click)="cancelarEdicao()">Cancelar</button>
+  <button type="button" *ngIf="!clienteEmEdicao" (click)="limparFormulario()">Limpar</button>
+</form>
+
+<hr />
+
+<h2>Lista de Clientes</h2>
+
 <table>
   <thead>
     <tr>
@@ -6,6 +45,7 @@
       <th>Nome</th>
       <th>Email</th>
       <th>Telefone</th>
+      <th>Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -14,45 +54,12 @@
       <td>{{ cliente.nome }}</td>
       <td>{{ cliente.email }}</td>
       <td>{{ cliente.telefone }}</td>
+      <td>
+        <button (click)="editarCliente(cliente)">Editar</button>
+        <button (click)="excluirCliente(cliente.id)">Excluir</button>
+      </td>
     </tr>
   </tbody>
 </table>
--->
 
-<h2>Cadastro de Cliente</h2>
-
-<form [formGroup]="clienteForm" (ngSubmit)="adicionarCliente()">
-  <label>Nome:</label>
-  <input formControlName="nome" type="text">
-  <br>
-
-  <label>Email:</label>
-  <input formControlName="email" type="email">
-  <br>
-
-  <label>Telefone:</label>
-  <input formControlName="telefone" type="text">
-  <br>
-
-  <button type="submit" [disabled]="clienteForm.invalid">Salvar</button>
-</form>
-
-<hr>
-
-<h2>Lista de Clientes</h2>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cliente of clientes">
-      <td>{{ cliente.id }}</td>
-      <td>{{ cliente.nome }}</td>
-      <td>{{ cliente.email }}</td>
-      <td>{{ cliente.telefone }}</td>
-    </tr>
-  </tbody>
-</table>
 

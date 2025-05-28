@@ -1,80 +1,94 @@
-<!--<p>propostas works!</p>-->
 <h2>Cadastro de Proposta</h2>
 
-<form [formGroup]="propostaForm" (ngSubmit)="adicionarProposta()">
-  <label>Cliente ID:</label>
-  <input type="number" formControlName="clienteId" />
-  <br>
+<form [formGroup]="propostaForm" (ngSubmit)="salvarProposta()" class="formulario-proposta">
+  <div class="form-grid">
+    <!-- Coluna Esquerda -->
+    <div class="coluna-esquerda">
+      <fieldset>
+        <legend>Identificação</legend>
 
-  <label>Modelo ID:</label>
-  <input type="number" formControlName="modeloPropostaId" />
-  <br>
+        <label for="cliente">Cliente:</label>
+        <select id="cliente" formControlName="clienteId">
+          <option [value]="0" disabled>Selecione um cliente</option>
+          <option *ngFor="let cliente of clientes" [value]="cliente.id">
+            {{ cliente.nome }}
+          </option>
+        </select>
 
-  <label>Título:</label>
-  <input type="text" formControlName="titulo" />
-  <br>
+        <label for="clienteId">ID do Cliente:</label>
+        <input id="clienteId" type="number" [value]="propostaForm.get('clienteId')?.value" disabled />
 
-  <label>Escopo Detalhado:</label>
-  <textarea formControlName="escopoDetalhado"></textarea>
-  <br>
+        <label for="modelo">Modelo de Proposta:</label>
+        <select id="modelo" formControlName="modeloPropostaId">
+          <option *ngFor="let modelo of modelos" [value]="modelo.id">
+            {{ modelo.nome }}
+          </option>
+        </select>
 
-  <label>Condições de Exclusão:</label>
-  <textarea formControlName="condicoesExclusao"></textarea>
-  <br>
+        <label for="modeloId">ID do Modelo:</label>
+        <input id="modeloId" type="number" [value]="propostaForm.get('modeloPropostaId')?.value" disabled />
 
-  <label>Obrigações da Contratada:</label>
-  <textarea formControlName="obrigacoesContratada"></textarea>
-  <br>
+        <label for="titulo">Título:</label>
+        <input id="titulo" type="text" formControlName="titulo" />
+      </fieldset>
 
-  <label>Obrigações da Contratante:</label>
-  <textarea formControlName="obrigacoesContratante"></textarea>
-  <br>
+      <fieldset>
+        <legend>Execução e Pagamento</legend>
 
-  <label>Prazo de Execução:</label>
-  <input type="text" formControlName="prazoExecucao" />
-  <br>
+        <label for="prazoExecucao">Prazo de Execução:</label>
+        <input id="prazoExecucao" type="text" formControlName="prazoExecucao" />
 
-  <label>Valor Total:</label>
-  <input type="number" formControlName="valorTotal" />
-  <br>
+        <label for="valorTotal">Valor Total:</label>
+        <input id="valorTotal" type="number" formControlName="valorTotal" />
 
-  <label>Condições de Pagamento:</label>
-  <textarea formControlName="condicoesPagamento"></textarea>
-  <br>
+        <label for="validade">Validade:</label>
+        <input id="validade" type="date" formControlName="validade" />
 
-  <label>Validade:</label>
-  <input type="date" formControlName="validade" />
-  <br>
+        <label for="status">Status:</label>
+        <input id="status" type="text" formControlName="status" />
+      </fieldset>
+    </div>
 
-  <label>Status:</label>
-  <input type="text" formControlName="status" />
-  <br>
+    <!-- Coluna Direita -->
+    <div class="coluna-direita">
+      <fieldset>
+        <legend>Conteúdo da Proposta</legend>
 
-  <button type="submit" [disabled]="propostaForm.invalid">Salvar</button>
+        <label for="escopoDetalhado">Escopo Detalhado:</label>
+        <textarea id="escopoDetalhado" formControlName="escopoDetalhado" rows="6"></textarea>
+
+        <label for="condicoesExclusao">Condições de Exclusão:</label>
+        <textarea id="condicoesExclusao" formControlName="condicoesExclusao" rows="4"></textarea>
+
+        <label for="obrigacoesContratada">Obrigações da Contratada:</label>
+        <textarea id="obrigacoesContratada" formControlName="obrigacoesContratada" rows="4"></textarea>
+
+        <label for="obrigacoesContratante">Obrigações da Contratante:</label>
+        <textarea id="obrigacoesContratante" formControlName="obrigacoesContratante" rows="4"></textarea>
+
+        <label for="condicoesPagamento">Condições de Pagamento:</label>
+        <textarea id="condicoesPagamento" formControlName="condicoesPagamento" rows="4"></textarea>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="botoes">
+    <button type="submit" [disabled]="propostaForm.invalid">
+      {{ propostaEmEdicao ? 'Atualizar' : 'Salvar' }}
+    </button>
+    <button type="button" (click)="cancelarEdicao()" *ngIf="propostaEmEdicao">Cancelar</button>
+    <button type="button" (click)="limparFormulario()" *ngIf="!propostaEmEdicao">Limpar</button>
+
+    <!-- Link para relatório -->
+    <a
+      *ngIf="propostaEmEdicao"
+      class="relatorio-link"
+      [routerLink]="['/relatorios', propostaEmEdicao.id]"
+    >
+      Ver Relatório
+    </a>
+  </div>
 </form>
 
-<hr />
 
-<h2>Lista de Propostas</h2>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Título</th>
-      <th>Cliente ID</th>
-      <th>Modelo ID</th>
-      <th>Valor</th>
-      <th>Validade</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let proposta of propostas">
-      <td>{{ proposta.id }}</td>
-      <td>{{ proposta.titulo }}</td>
-      <td>{{ proposta.clienteId }}</td>
-      <td>{{ proposta.modeloPropostaId }}</td>
-      <td>{{ proposta.valorTotal | currency }}</td>
-      <td>{{ proposta.validade | date }}</td>
-    </tr>
-  </tbody>
-</table>
+

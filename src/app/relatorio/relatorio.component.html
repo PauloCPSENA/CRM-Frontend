@@ -1,0 +1,24 @@
+<div *ngIf="proposta" class="relatorio">
+  <h1>{{ proposta.titulo }}</h1>
+  <p><strong>Cliente ID:</strong> {{ proposta.clienteId }}</p>
+  <p><strong>Modelo de Proposta:</strong> {{ proposta.modeloPropostaId }}</p>
+  <p><strong>Prazo de Execução:</strong> {{ proposta.prazoExecucao }}</p>
+  <p><strong>Valor Total:</strong> {{ proposta.valorTotal | currency }}</p>
+  <p><strong>Validade:</strong> {{ proposta.validade | date }}</p>
+
+  <h2>Escopo Detalhado</h2>
+  <pre>{{ proposta.escopoDetalhado }}</pre>
+
+  <h2>Condições de Exclusão</h2>
+  <pre>{{ proposta.condicoesExclusao }}</pre>
+
+  <h2>Obrigações da Contratada</h2>
+  <pre>{{ proposta.obrigacoesContratada }}</pre>
+
+  <h2>Obrigações da Contratante</h2>
+  <pre>{{ proposta.obrigacoesContratante }}</pre>
+
+  <h2>Condições de Pagamento</h2>
+  <pre>{{ proposta.condicoesPagamento }}</pre>
+</div>
+

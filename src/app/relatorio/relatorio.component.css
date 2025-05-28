@@ -1,0 +1,17 @@
+.relatorio {
+  max-width: 900px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  color: #2c3e50;
+}
+
+pre {
+  background: #f9f9f9;
+  padding: 1rem;
+  white-space: pre-wrap;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

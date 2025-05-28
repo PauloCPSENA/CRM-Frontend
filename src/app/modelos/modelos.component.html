@@ -1,45 +1,72 @@
 <h2>Cadastro de Modelo de Proposta</h2>
 
-<form [formGroup]="modeloForm" (ngSubmit)="adicionarModelo()">
-  <label>Nome:</label>
-  <input formControlName="nome" type="text"><br>
+<div class="modelo-layout">
+  <!-- Formulário -->
+  <div class="modelo-formulario">
+    <form [formGroup]="modeloForm" (ngSubmit)="salvarModelo()">
+      <div class="form-row">
+        <label>Nome:</label>
+        <input type="text" formControlName="nome" />
+      </div>
 
-  <label>Escopo Detalhado Padrão:</label>
-  <textarea formControlName="escopoDetalhadoPadrao"></textarea><br>
+      <div class="form-row">
+        <label>Escopo Detalhado Padrão:</label>
+        <textarea formControlName="escopoDetalhadoPadrao"></textarea>
+      </div>
 
-  <label>Condições de Exclusão Padrão:</label>
-  <textarea formControlName="condicoesExclusaoPadrao"></textarea><br>
+      <div class="form-row">
+        <label>Condições de Exclusão Padrão:</label>
+        <textarea formControlName="condicoesExclusaoPadrao"></textarea>
+      </div>
 
-  <label>Obrigações da Contratada Padrão:</label>
-  <textarea formControlName="obrigacoesContratadaPadrao"></textarea><br>
+      <div class="form-row">
+        <label>Obrigações da Contratada Padrão:</label>
+        <textarea formControlName="obrigacoesContratadaPadrao"></textarea>
+      </div>
 
-  <label>Obrigações da Contratante Padrão:</label>
-  <textarea formControlName="obrigacoesContratantePadrao"></textarea><br>
+      <div class="form-row">
+        <label>Obrigações da Contratante Padrão:</label>
+        <textarea formControlName="obrigacoesContratantePadrao"></textarea>
+      </div>
 
-  <label>Condições de Pagamento Padrão:</label>
-  <textarea formControlName="condicoesPagamentoPadrao"></textarea><br>
+      <div class="form-row">
+        <label>Condições de Pagamento Padrão:</label>
+        <textarea formControlName="condicoesPagamentoPadrao"></textarea>
+      </div>
 
-  <button type="submit" [disabled]="modeloForm.invalid">Salvar</button>
-</form>
+      <div class="botoes">
+        <button type="submit" [disabled]="modeloForm.invalid">
+          {{ modeloEmEdicao ? 'Atualizar' : 'Salvar' }}
+        </button>
+        <button type="button" (click)="cancelarEdicao()" *ngIf="modeloEmEdicao">Cancelar</button>
+        <button type="button" (click)="modeloForm.reset()" *ngIf="!modeloEmEdicao">Limpar</button>
+      </div>
+    </form>
+  </div>
 
-<hr>
+  <!-- Lista -->
+  <div class="modelo-lista">
+    <h3>Lista de Modelos</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let modelo of modelos">
+          <td>{{ modelo.id }}</td>
+          <td>{{ modelo.nome }}</td>
+          <td>
+            <button (click)="editarModelo(modelo)">Editar</button>
+            <button (click)="excluirModelo(modelo.id!)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<h2>Lista de Modelos</h2>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th><th>Nome</th><th>Validade</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let m of modelos">
-      <td>{{ m.id }}</td>
-      <td>{{ m.nome }}</td>
-      <td>{{ m.condicoesPagamentoPadrao }}</td>
-    </tr>
-  </tbody>
-</table>
 
-
-
-<!--<p>modelos works!</p>-->

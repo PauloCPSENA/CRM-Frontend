@@ -1,20 +1,38 @@
+
+
 <nav class="sidebar">
   <ul>
     <li>
-      <a href="#">
-        <span class="icon">👤</span> Clientes
+      <a routerLink="/clientes" routerLinkActive="active" aria-label="Clientes">
+        <span class="icon">👤</span>
+        <span class="label">Clientes</span>
       </a>
     </li>
     <li>
-      <a href="#">
-        <span class="icon">📄</span> Propostas
+      <a routerLink="/propostas" routerLinkActive="active" aria-label="Propostas">
+        <span class="icon">📄</span>
+        <span class="label">Propostas</span>
       </a>
     </li>
     <li>
-      <a href="#">
-        <span class="icon">📊</span> Relatórios
+      <a routerLink="/modelos" routerLinkActive="active" aria-label="Modelos de Proposta">
+        <span class="icon">📑</span>
+        <span class="label">Modelos</span>
       </a>
     </li>
+
+    <!--
+      O item abaixo está comentado porque a rota "/relatorios" ainda não existe.
+      Quando a listagem de relatórios for implementada, você pode reativá-lo.
+
+    <li>
+      <a routerLink="/relatorios" routerLinkActive="active" aria-label="Relatórios">
+        <span class="icon">📊</span>
+        <span class="label">Relatórios</span>
+      </a>
+    </li>
+    -->
+
   </ul>
 </nav>
 

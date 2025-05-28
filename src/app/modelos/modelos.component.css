@@ -1,38 +1,67 @@
-:host {
-  display: block;
-  padding: 16px;
-  max-height: 90vh;
-  overflow-y: auto;
+.modelo-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 20px;
 }
 
-form {
+.modelo-formulario,
+.modelo-lista {
+  flex: 1 1 45%;
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.form-row {
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 input, textarea {
-  padding: 6px;
-  font-size: 14px;
   width: 100%;
+  padding: 8px;
+  font-size: 14px;
 }
 
-button {
-  padding: 8px;
-  margin-top: 8px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
 th, td {
-  padding: 6px;
-  border-bottom: 1px solid #ccc;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
 }
+
+@media (max-width: 768px) {
+  .modelo-layout {
+    flex-direction: column;
+  }
+
+  .modelo-formulario,
+  .modelo-lista {
+    flex: 1 1 100%;
+  }
+}
+

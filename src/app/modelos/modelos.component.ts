@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ModeloProposta, ModeloPropostaService } from './modelos.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ModeloProposta, ModeloPropostaService } from './modelos.service';
 
 @Component({
   selector: 'app-modelos',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './modelos.component.html',
-  styleUrls: ['./modelos.component.css']
+  styleUrls: ['./modelos.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  providers: [ModeloPropostaService]
 })
 export class ModelosComponent implements OnInit {
-  modeloForm!: FormGroup;
+  modeloForm: FormGroup;
   modelos: ModeloProposta[] = [];
+  modeloEmEdicao: ModeloProposta | null = null;
 
   constructor(
     private fb: FormBuilder,
     private modeloService: ModeloPropostaService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.modeloForm = this.fb.group({
       nome: ['', Validators.required],
       escopoDetalhadoPadrao: [''],
@@ -29,27 +29,65 @@ export class ModelosComponent implements OnInit {
       obrigacoesContratantePadrao: [''],
       condicoesPagamentoPadrao: ['']
     });
+  }
 
+  ngOnInit(): void {
     this.carregarModelos();
   }
 
   carregarModelos(): void {
     this.modeloService.getModelos().subscribe({
-      next: data => this.modelos = data,
+      next: dados => this.modelos = dados.sort((a, b) => a.nome.localeCompare(b.nome)),
       error: err => console.error('Erro ao carregar modelos:', err)
     });
   }
 
-  adicionarModelo(): void {
+  salvarModelo(): void {
     if (this.modeloForm.invalid) return;
 
-    this.modeloService.adicionarModelo(this.modeloForm.value).subscribe({
-      next: novo => {
-        this.modelos.push(novo);
-        this.modeloForm.reset();
+    const modelo = this.modeloForm.value;
+
+    if (this.modeloEmEdicao) {
+      const atualizado = { ...this.modeloEmEdicao, ...modelo };
+      this.modeloService.atualizarModelo(atualizado).subscribe({
+        next: () => {
+          const index = this.modelos.findIndex(m => m.id === atualizado.id);
+          if (index !== -1) this.modelos[index] = atualizado;
+          this.cancelarEdicao();
+        },
+        error: err => console.error('Erro ao atualizar modelo:', err)
+      });
+    } else {
+      this.modeloService.criar(modelo).subscribe({
+        next: novo => {
+          this.modelos.push(novo);
+          this.modeloForm.reset();
+        },
+        error: err => console.error('Erro ao adicionar modelo:', err)
+      });
+    }
+  }
+
+  editarModelo(modelo: ModeloProposta): void {
+    this.modeloEmEdicao = modelo;
+    this.modeloForm.patchValue(modelo);
+  }
+
+  excluirModelo(id: number): void {
+    if (!confirm('Deseja realmente excluir este modelo?')) return;
+
+    this.modeloService.deletarModelo(id).subscribe({
+      next: () => {
+        this.modelos = this.modelos.filter(m => m.id !== id);
+        if (this.modeloEmEdicao?.id === id) this.cancelarEdicao();
       },
-      error: err => console.error('Erro ao adicionar modelo:', err)
+      error: err => console.error('Erro ao excluir modelo:', err)
     });
+  }
+
+  cancelarEdicao(): void {
+    this.modeloEmEdicao = null;
+    this.modeloForm.reset();
   }
 }
 
@@ -57,15 +95,7 @@ export class ModelosComponent implements OnInit {
 
 
 
-/*import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-@Component({
-  selector: 'app-modelos',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './modelos.component.html',
-  styleUrls: ['./modelos.component.css']
-})
-export class ModelosComponent {}*/
+
+
 

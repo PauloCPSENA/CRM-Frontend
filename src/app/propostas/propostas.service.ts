@@ -32,9 +32,20 @@ export class PropostasService {
     return this.http.get<Proposta[]>(this.apiUrl);
   }
 
+  getPropostaById(id: number): Observable<Proposta> {
+    return this.http.get<Proposta>(`${this.apiUrl}/${id}`);
+  }
+
   adicionarProposta(proposta: Proposta): Observable<Proposta> {
     return this.http.post<Proposta>(this.apiUrl, proposta);
   }
 
-  // Você pode adicionar update/delete se quiser futuramente
+  atualizarProposta(proposta: Proposta): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${proposta.id}`, proposta);
+  }
+  deletarProposta(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+    // Você pode adicionar update/delete se quiser futuramente
 }
